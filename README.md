@@ -180,7 +180,7 @@ if (e.data.event == "PAYMENT_CANCELLED") {
 
 ### 10. PAYMENT_TIMEOUT
 **Quando:** Em casos de abandono do totem pelo cliente. Ocorre em 1 minuto de inatividade.
-**Ação:** Retornar à tela inicial
+**Ação:** Retornar à tela inicial.
 
 ```javascript
 if (e.data.event == "PAYMENT_TIMEOUT") {
@@ -222,22 +222,31 @@ window.onmessage = function (e) {
 
 ## Fluxo Completo
 
+O fluxo se divide em 3 partes:
+
+### Ativação do dispositivo:
 1. **Inicialização**: Verificar se existe sessionToken
-2. **Ativação**: Se não houver token, redirecionar para `/activation/serial`
-3. **Ativação OK**: Salvar token e ir para `/bemobi/{token}/device`
-4. **Resolução de Pendências**: Aguardar `SITEF_ISSUE_RESOLUTION_OK`
-5. **Checkout**: Redirecionar para `/bemobi/{token}/light`
-6. **Envio de Dados**: Enviar dados da conta quando `PAGE_LOADED`
-7. **Pagamento**: Gerenciar estados de pagamento
-8. **Finalização**: Processar resultado do pagamento
+2. **Ativação**: Se não houver token, redirecionar para `/activation/serial`. Ao final deste processo, se a ativação ocorrer com sucesso, o token de sessão será obtido e deverá ser salvo pela aplicação.
+
+Enquanto o session token estiver válido e um evento `DEVICE_ACTIVATION_FAILED` não tiver sido recebido, esse procedimento não precisará ser realizado novamente.
+
+
+
+### Inicialização do dispositivo
+1. **Buscar dados do dispositivo**: Direcionar o iframe para `/bemobi/{token}/device`. Neste ponto, os dados do totem serão validados com o token obtido na ativação e então será iniciado o processo de resolução de pendências.
+2. **Resolução de Pendências**: Aguardar `SITEF_ISSUE_RESOLUTION_OK`. Ao receber esse status, a aplicação pode ir para o checkout ou fazer outras atividades próprias.
+
+### Checkout
+1. **Listagem de faturas**: Redirecionar para `BASE_URL/bemobi/{token}/light`
+6. **Envio de Dados**: Enviar dados das contas selecionadas, instalação e protocolo quando receber o evento `PAGE_LOADED`, conforme exemplo.
+7. **Pagamento**: Gerenciar estados de pagamento conforme descrito anteriormente
+8. **Finalização**: Processar resultado do pagamento, exibido a tela de sucesso de pagamento e imprimindo o comprovante da fatura. **TODO COMPROVANTE DEVE CONTER O COMPROVANTE DO SITEF AO FINAL. PODE SER OBTIDO NO OBJETO transaction NO EVENTO PAYMENT_OK**
 
 ## Considerações Importantes
 
 - **Segurança**: Sempre verificar `e.origin === BASE_URL` antes de processar mensagens
 - **Session Token**: Esse token não se renova com frequência. É gerado uma vez e não deve mudar até que seja recebida uma falha de ativação.
-- **Fallback**: Implementar tratamento de erro para todos os eventos
-- **UX**: Bloquear ações de saída durante pagamento em progresso
-- **Logs**: Manter logs detalhados para debugging
+- **UI/UX**: Bloquear ações de saída durante pagamento em progresso (evento `PAYMENT_IN_PROGESS`)
 
 ## Estrutura de Mensagens
 
