@@ -82,12 +82,13 @@
               class="btn btn-primary btn-sm"
               id="backButton"
               onclick="voltarParaTeclado()"
+              style="visibility: hidden"
             >
               ← Voltar
             </button>
           </div>
           <div class="col-10">
-            
+            <!-- Título removido -->
           </div>
         </div>
       </div>
@@ -176,8 +177,13 @@
       <div class="container-fluid">
         <div class="row justify-content-center py-3">
           <div class="col-auto">
-            <button class="btn btn-danger" id="exitButton" onclick="sair()">
-              X Sair
+            <button 
+              class="btn btn-danger" 
+              id="exitButton" 
+              onclick="sair()"
+              style="visibility: hidden"
+            >
+              🚪 Sair
             </button>
           </div>
         </div>
@@ -275,9 +281,9 @@
         document.getElementById("footerContainer").style.display = "block";
         document.getElementById("iframeContainer").style.display = "block";
 
-        // Garantir que os botões voltar e sair estejam visíveis
-        document.getElementById("backButton").style.display = "flex";
-        document.getElementById("exitButton").style.display = "flex";
+         // Garantir que os botões voltar e sair estejam visíveis
+         document.getElementById("backButton").style.visibility = "visible";
+         document.getElementById("exitButton").style.visibility = "visible";
 
         // Inicializar o iframe com a URL correta baseada no sessionToken
         if (sessionToken) {
@@ -376,8 +382,8 @@
            */
           if (e.data.event == "PAGE_LOADED") {
             setTimeout(enviarDadosParaListagem, 1000); // Aguarda 1 segundo para garantir que o iframe carregou
-            document.getElementById("backButton").style.display = "flex";
-            document.getElementById("exitButton").style.display = "flex";
+            document.getElementById("backButton").style.visibility = "visible";
+            document.getElementById("exitButton").style.visibility = "visible";
           }
 
           /*
@@ -387,8 +393,8 @@
           if (e.data.event == "PAYMENT_IN_PROGRESS") {
             console.log("Pagamento em andamento...");
             // Esconder o botão voltar e sair durante o pagamento
-            document.getElementById("backButton").style.display = "none";
-            document.getElementById("exitButton").style.display = "none";
+            document.getElementById("backButton").style.visibility = "hidden";
+            document.getElementById("exitButton").style.visibility = "hidden";
           }
 
           /*
@@ -401,8 +407,8 @@
               e.data.transaction
             );
             // Mostrar os botões voltar e sair novamente
-            document.getElementById("backButton").style.display = "flex";
-            document.getElementById("exitButton").style.display = "flex";
+            document.getElementById("backButton").style.visibility = "visible";
+            document.getElementById("exitButton").style.visibility = "visible";
           }
 
           /*
@@ -416,8 +422,8 @@
               e.data.error
             );
             // Mostrar os botões voltar e sair novamente
-            document.getElementById("backButton").style.display = "flex";
-            document.getElementById("exitButton").style.display = "flex";
+            document.getElementById("backButton").style.visibility = "visible";
+            document.getElementById("exitButton").style.visibility = "visible";
             //document.getElementById("testIframe").src = BASE_URL + "/bemobi/" + sessionToken + "/light";;
           }
 
@@ -428,8 +434,8 @@
           if (e.data.event == "PAYMENT_CANCELLED") {
             console.log("Pagamento Cancelado: ", e.data.error);
             // Mostrar os botões voltar e sair novamente
-            document.getElementById("backButton").style.display = "flex";
-            document.getElementById("exitButton").style.display = "flex";
+            document.getElementById("backButton").style.visibility = "visible";
+            document.getElementById("exitButton").style.visibility = "visible";
             document.getElementById("testIframe").src =
               BASE_URL + "/bemobi/" + sessionToken + "/device";
           }
@@ -439,8 +445,8 @@
            */
           if (e.data.event == "PAYMENT_TIMEOUT") {
             // Mostrar os botões voltar e sair novamente
-            document.getElementById("backButton").style.display = "flex";
-            document.getElementById("exitButton").style.display = "flex";
+            document.getElementById("backButton").style.visibility = "visible";
+            document.getElementById("exitButton").style.visibility = "visible";
             document.getElementById("testIframe").src =
               BASE_URL + "/bemobi/" + sessionToken + "/device";
           }
