@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Informe o Contrato</title>
     <!-- Bootstrap 5 CSS -->
     <link
@@ -10,165 +10,353 @@
       rel="stylesheet"
     />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
 
-        .container {
-            background-color: white;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-        }
+      .container {
+        background-color: white;
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+      }
 
-        .iframe-container {
-            height: 100vh;
-            padding: 20px;
-            display: block;
-        }
-        .responsive-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+      .iframe-container {
+        height: calc(100vh - 80px); /* Subtrai apenas altura do header (80px) */
+        padding: 0;
+        display: block;
+        margin-top: 80px; /* Espaço para o header fixo */
+      }
 
-        .title {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 30px;
-        }
+      .iframe-container.with-footer {
+        height: calc(
+          100vh - 160px
+        ); /* Subtrai altura do header (80px) e footer (80px) */
+        margin-bottom: 80px; /* Espaço para o footer fixo */
+      }
+      .responsive-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+      }
 
-        .input-field {
-            width: 100%;
-            height: 50px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 0 15px;
-            font-size: 18px;
-            text-align: center;
-            margin-bottom: 30px;
-            background-color: white;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
+      .title {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 30px;
+      }
 
-        .input-field:focus {
-            border-color: #007bff;
-        }
+      .input-field {
+        width: 100%;
+        height: 50px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0 15px;
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 30px;
+        background-color: white;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
 
-        .keypad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            max-width: 300px;
-            margin: 0 auto;
-        }
+      .input-field:focus {
+        border-color: #007bff;
+      }
 
-        .key {
-            height: 60px;
-            border: none;
-            border-radius: 8px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .keypad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        max-width: 300px;
+        margin: 0 auto;
+      }
 
-        .key:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
+      .key {
+        height: 60px;
+        border: none;
+        border-radius: 8px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-        .key:active {
-            transform: translateY(0);
-        }
+      .key:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
 
-        .number-key {
-            background-color: #007bff;
-            color: white;
-        }
+      .key:active {
+        transform: translateY(0);
+      }
 
-        .backspace-key {
-            background-color: #ffc107;
-            color: white;
-            font-size: 24px;
-        }
+      .number-key {
+        background-color: #007bff;
+        color: white;
+      }
 
-        .confirm-key {
-            background-color: #28a745;
-            color: white;
-            font-size: 24px;
-        }
+      .backspace-key {
+        background-color: #ffc107;
+        color: white;
+        font-size: 24px;
+      }
 
-        /* Layout específico para o teclado */
-        .keypad .key:nth-child(1) { grid-column: 1; grid-row: 1; } /* 7 */
-        .keypad .key:nth-child(2) { grid-column: 2; grid-row: 1; } /* 8 */
-        .keypad .key:nth-child(3) { grid-column: 3; grid-row: 1; } /* 9 */
-        .keypad .key:nth-child(4) { grid-column: 1; grid-row: 2; } /* 4 */
-        .keypad .key:nth-child(5) { grid-column: 2; grid-row: 2; } /* 5 */
-        .keypad .key:nth-child(6) { grid-column: 3; grid-row: 2; } /* 6 */
-        .keypad .key:nth-child(7) { grid-column: 1; grid-row: 3; } /* 1 */
-        .keypad .key:nth-child(8) { grid-column: 2; grid-row: 3; } /* 2 */
-        .keypad .key:nth-child(9) { grid-column: 3; grid-row: 3; } /* 3 */
-        .keypad .key:nth-child(10) { grid-column: 2; grid-row: 4; } /* 0 */
-        .keypad .key:nth-child(11) { grid-column: 1; grid-row: 4; } /* Backspace */
-        .keypad .key:nth-child(12) { grid-column: 3; grid-row: 4; } /* Confirm */
+      .confirm-key {
+        background-color: #28a745;
+        color: white;
+        font-size: 24px;
+      }
+
+      /* Layout específico para o teclado */
+      .keypad .key:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+      } /* 7 */
+      .keypad .key:nth-child(2) {
+        grid-column: 2;
+        grid-row: 1;
+      } /* 8 */
+      .keypad .key:nth-child(3) {
+        grid-column: 3;
+        grid-row: 1;
+      } /* 9 */
+      .keypad .key:nth-child(4) {
+        grid-column: 1;
+        grid-row: 2;
+      } /* 4 */
+      .keypad .key:nth-child(5) {
+        grid-column: 2;
+        grid-row: 2;
+      } /* 5 */
+      .keypad .key:nth-child(6) {
+        grid-column: 3;
+        grid-row: 2;
+      } /* 6 */
+      .keypad .key:nth-child(7) {
+        grid-column: 1;
+        grid-row: 3;
+      } /* 1 */
+      .keypad .key:nth-child(8) {
+        grid-column: 2;
+        grid-row: 3;
+      } /* 2 */
+      .keypad .key:nth-child(9) {
+        grid-column: 3;
+        grid-row: 3;
+      } /* 3 */
+      .keypad .key:nth-child(10) {
+        grid-column: 2;
+        grid-row: 4;
+      } /* 0 */
+      .keypad .key:nth-child(11) {
+        grid-column: 1;
+        grid-row: 4;
+      } /* Backspace */
+      .keypad .key:nth-child(12) {
+        grid-column: 3;
+        grid-row: 4;
+      } /* Confirm */
+
+      /* Estilos do Header */
+      .header {
+        background-color: white;
+        border-bottom: 2px solid #e0e0e0;
+        padding: 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        height: 80px;
+      }
+
+      .header-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+        text-align: center;
+      }
+
+      .back-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .back-button:hover {
+        background-color: #0056b3;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+      }
+
+      .back-button:active {
+        transform: translateY(0);
+      }
+
+      .back-button::before {
+        content: "←";
+        font-size: 18px;
+      }
+
+      /* Estilos do Footer */
+      .footer {
+        background-color: white;
+        border-top: 2px solid #e0e0e0;
+        padding: 15px 0;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        height: 80px;
+      }
+
+      .exit-button {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .exit-button:hover {
+        background-color: #c82333;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+      }
+
+      .exit-button:active {
+        transform: translateY(0);
+      }
+
+      .exit-button::before {
+        content: "🚪";
+        font-size: 18px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Container do teclado (inicialmente visível) -->
     <div class="container" id="keypadContainer">
-        <h1 class="title">Informe o Contrato</h1>
-        
-        <input 
-            type="text" 
-            id="contractInput" 
-            class="input-field" 
-            placeholder="Digite o número do contrato"            
-        />
-        
-        <div class="keypad">
-            <button class="key number-key" onclick="addDigit('7')">7</button>
-            <button class="key number-key" onclick="addDigit('8')">8</button>
-            <button class="key number-key" onclick="addDigit('9')">9</button>
-            <button class="key number-key" onclick="addDigit('4')">4</button>
-            <button class="key number-key" onclick="addDigit('5')">5</button>
-            <button class="key number-key" onclick="addDigit('6')">6</button>
-            <button class="key number-key" onclick="addDigit('1')">1</button>
-            <button class="key number-key" onclick="addDigit('2')">2</button>
-            <button class="key number-key" onclick="addDigit('3')">3</button>
-            <button class="key number-key" onclick="addDigit('0')">0</button>
-            <button class="key backspace-key" onclick="removeDigit()">←</button>
-            <button class="key confirm-key" onclick="onConfirm()">✓</button>
+      <h1 class="title">Informe o Contrato</h1>
+
+      <input
+        type="text"
+        id="contractInput"
+        class="input-field"
+        placeholder="Digite o número do contrato"
+      />
+
+      <div class="keypad">
+        <button class="key number-key" onclick="addDigit('7')">7</button>
+        <button class="key number-key" onclick="addDigit('8')">8</button>
+        <button class="key number-key" onclick="addDigit('9')">9</button>
+        <button class="key number-key" onclick="addDigit('4')">4</button>
+        <button class="key number-key" onclick="addDigit('5')">5</button>
+        <button class="key number-key" onclick="addDigit('6')">6</button>
+        <button class="key number-key" onclick="addDigit('1')">1</button>
+        <button class="key number-key" onclick="addDigit('2')">2</button>
+        <button class="key number-key" onclick="addDigit('3')">3</button>
+        <button class="key number-key" onclick="addDigit('0')">0</button>
+        <button class="key backspace-key" onclick="removeDigit()">←</button>
+        <button class="key confirm-key" onclick="onConfirm()">✓</button>
+      </div>
+    </div>
+
+    <!-- Header (inicialmente oculto) -->
+    <div class="header" id="headerContainer" style="display: none">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="row p-1">
+            <div class="col-1">
+              <button
+                class="btn btn-primary"
+                id="backButton"
+                onclick="voltarParaTeclado()"
+              >
+                < Voltar
+              </button>
+            </div>
+            <div class="col-11"></div>
+          </div>
+          <div class="row p-1">
+            <div class="col-12">
+              <h1 class="header-title">TERMINAL DE AUTOATENDIMENTO</h1>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Footer (inicialmente oculto) -->
+    <div class="footer" id="footerContainer" style="display: none">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-auto">
+            <button
+              class="btn btn-danger btn-sm"
+              id="exitButton"
+              onclick="sair()"
+            >
+              X Sair
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Container do iframe (inicialmente oculto) -->
-    <div class="container-fluid iframe-container" id="iframeContainer" style="display: none;">
-        <div class="row h-100">
-            <div class="col-12">
-                <!--
+    <div
+      class="container-fluid iframe-container"
+      id="iframeContainer"
+      style="display: none"
+    >
+      <div class="row h-100">
+        <div class="col-12">
+          <!--
                 O IFrame deve primeiro chamar a URL raiz, para que a ativação do dispositivo seja
                 verificada e as pendências resolvidas.
 
@@ -181,252 +369,329 @@
                 a mensagem enviada será SITEF_ISSUE_RESOLUTION_ERROR, e o IFrame deverá encerrar a operação, acionando o suporte.
 
                 -->
-                <iframe
-                    id="testIframe"
-                    src=""
-                    class="responsive-iframe"
-                ></iframe>
-            </div>
+          <iframe id="testIframe" src="" class="responsive-iframe"></iframe>
         </div>
+      </div>
     </div>
 
     <!-- Bootstrap 5 JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        let sessionToken = undefined;
-        // URL base da aplicação
-        const BASE_URL = "https://totem-bemobi-web.vercel.app";
-        //const BASE_URL = "http://localhost:3000";
-        
-        // Variável para armazenar o número do contrato
-        let contractNumber = '';
+      let sessionToken = undefined;
+      // URL base da aplicação
+      //const BASE_URL = "https://totem-bemobi-web.vercel.app";
+      const BASE_URL = "http://localhost:3000";
 
-        // Funções para manipulação de cookies
-        function setCookie(name, value, days = 30) {
-            const expires = new Date();
-            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-            document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Strict`;
+      // Variável para armazenar o número do contrato
+      let contractNumber = "";
+
+      // Funções para manipulação de cookies
+      function setCookie(name, value, days = 30) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Strict`;
+      }
+
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(";");
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) === " ") c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) === 0)
+            return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+      }
+
+      function deleteCookie(name) {
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Strict`;
+      }
+
+      // Função para adicionar dígito ao campo
+      function addDigit(digit) {
+        const input = document.getElementById("contractInput");
+        input.value += digit;
+      }
+
+      // Função para remover último dígito
+      function removeDigit() {
+        const input = document.getElementById("contractInput");
+        input.value = input.value.slice(0, -1);
+      }
+
+      // Função para voltar ao teclado
+      function voltarParaTeclado() {
+        // Ocultar o iframe, header e footer
+        document.getElementById("iframeContainer").style.display = "none";
+        document.getElementById("headerContainer").style.display = "none";
+        document.getElementById("footerContainer").style.display = "none";
+
+        // Remover classe para ajustar altura do iframe
+        document
+          .getElementById("iframeContainer")
+          .classList.remove("with-footer");
+
+        // Mostrar o teclado
+        document.getElementById("keypadContainer").style.display = "block";
+
+        // Limpar o campo de entrada e focar
+        const input = document.getElementById("contractInput");
+        input.value = "";
+        input.focus();
+
+        console.log("Retornando ao teclado");
+      }
+
+      // Função para sair (recarregar página)
+      function sair() {
+        console.log("Saindo do sistema...");
+        window.location.reload();
+      }
+
+      // Função de confirmação
+      function onConfirm() {
+        contractNumber = document.getElementById("contractInput").value;
+
+        if (contractNumber.trim() === "") {
+          alert("Por favor, digite um número de contrato.");
+          return;
         }
 
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(";");
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === " ") c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0)
-                    return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
+        console.log("Número do contrato confirmado:", contractNumber);
 
-        function deleteCookie(name) {
-            document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Strict`;
-        }
-        
-        // Função para adicionar dígito ao campo
-        function addDigit(digit) {
-            const input = document.getElementById('contractInput');
-            input.value += digit;
-        }
+        // Ocultar o teclado e mostrar o header, footer e iframe
+        document.getElementById("keypadContainer").style.display = "none";
+        document.getElementById("headerContainer").style.display = "block";
+        document.getElementById("footerContainer").style.display = "block";
+        document.getElementById("iframeContainer").style.display = "block";
 
-        // Função para remover último dígito
-        function removeDigit() {
-            const input = document.getElementById('contractInput');
-            input.value = input.value.slice(0, -1);
+        // Adicionar classe para ajustar altura do iframe com footer
+        document.getElementById("iframeContainer").classList.add("with-footer");
+
+        // Garantir que os botões voltar e sair estejam visíveis
+        document.getElementById("backButton").style.display = "flex";
+        document.getElementById("exitButton").style.display = "flex";
+
+        // Inicializar o iframe com a URL correta baseada no sessionToken
+        if (sessionToken) {
+          // Se o sessionToken existe, redirecionar para a URL com o token
+          document.getElementById("testIframe").src =
+            BASE_URL + "/bemobi/" + sessionToken + "/light";
+          console.log(
+            "Redirecionando para checkout com sessionToken:",
+            BASE_URL + "/bemobi/" + sessionToken + "/light"
+          );
+        } else {
+          // Se não existe sessionToken, redirecionar para ativação
+          document.getElementById("testIframe").src =
+            BASE_URL + "/activation/serial";
+          console.log(
+            "Redirecionando para ativação:",
+            BASE_URL + "/activation/serial"
+          );
         }
+      }
 
-        // Função de confirmação
-        function onConfirm() {
-            contractNumber = document.getElementById('contractInput').value;
-            
-            if (contractNumber.trim() === '') {
-                alert('Por favor, digite um número de contrato.');
-                return;
-            }
+      // Função para enviar dados para listagem
+      function enviarDadosParaListagem() {
+        const iframe = document.querySelector("iframe");
+        const mensagem = {
+          event: "SELECTED_INVOICES",
+          ids: [""],
+          documentNumber: "01205793321",
+          installationCode: contractNumber,
+          contractCode: contractNumber,
+          protocol: "20251003000001",
+        };
+        iframe.contentWindow.postMessage(mensagem, "*");
+      }
 
-            console.log('Número do contrato confirmado:', contractNumber);
-            
-            // Ocultar o teclado e mostrar o iframe
-            document.getElementById('keypadContainer').style.display = 'none';
-            document.getElementById('iframeContainer').style.display = 'block';
-            
-            // Inicializar o iframe com a URL correta baseada no sessionToken
-            if (sessionToken) {
-                // Se o sessionToken existe, redirecionar para a URL com o token
-                document.getElementById("testIframe").src =
-                    BASE_URL + "/bemobi/" + sessionToken + "/light";
-                console.log(
-                    "Redirecionando para checkout com sessionToken:",
-                    BASE_URL + "/bemobi/" + sessionToken + "/light"
-                );
+      // Listener para receber mensagens do iframe
+      window.onmessage = function (e) {
+        if (e.origin === BASE_URL) {
+          console.log("Mensagem recebida no iframe:", e.data);
+        }
+        if (e.data.event != undefined) {
+          /*
+           * Ao receber a mensagem DEVICE_ACTIVATION_OK, será recebido o Session Token, que deve ser armazenado em um cookie do navegador
+           * ou em algum outro local para ser utilizado nas próximas requisições. Renove-o com frequencia para que não expire.
+           * Caso seja perdido, será necessário ativar novamente o dispositivo.
+           */
+          if (e.data.event == "DEVICE_ACTIVATION_OK") {
+            console.log(
+              "Dispositivo ativado com sucesso. Session Token: ",
+              e.data.sessionToken
+            );
+
+            // Salvar o sessionToken em um cookie
+            if (e.data.sessionToken) {
+              setCookie("sessionToken", e.data.sessionToken, 30); // Cookie válido por 30 dias
+              console.log("Session Token salvo em cookie com sucesso!");
+              document.getElementById("testIframe").src =
+                BASE_URL + "/bemobi/" + e.data.sessionToken + "/device";
             } else {
-                // Se não existe sessionToken, redirecionar para ativação
-                document.getElementById("testIframe").src =
-                    BASE_URL + "/activation/serial";
-                console.log(
-                    "Redirecionando para ativação:",
-                    BASE_URL + "/activation/serial"
-                );
+              console.warn(
+                "Session Token não foi recebido na mensagem DEVICE_ACTIVATION_OK"
+              );
             }
+          }
+
+          /*
+           * Ao receber a mensagem DEVICE_ACTIVATION_FAILED, o sessionToken deve ser removido do cookie
+           * pois a ativação falhou e o token não é mais válido.
+           */
+          if (e.data.event == "DEVICE_ACTIVATION_FAILED") {
+            console.log(
+              "Falha na ativação do dispositivo. Removendo sessionToken do cookie."
+            );
+            deleteCookie("sessionToken");
+            console.log("Session Token removido do cookie com sucesso!");
+          }
+
+          /*
+           * Ao receber a mensagem SITEF_ISSUE_RESOLUTION_OK, a aplicação pode capturar os dados que achar necessário,
+           * direcionando para o checkout Bemobi quando entender necessário.
+           */
+          if (e.data.event == "SITEF_ISSUE_RESOLUTION_OK") {
+            // Ocultar o iframe, header e footer, mostrar o teclado
+            document.getElementById("iframeContainer").style.display = "none";
+            document.getElementById("headerContainer").style.display = "none";
+            document.getElementById("footerContainer").style.display = "none";
+            document.getElementById("keypadContainer").style.display = "block";
+
+            // Remover classe para ajustar altura do iframe
+            document
+              .getElementById("iframeContainer")
+              .classList.remove("with-footer");
+
+            // Focar no campo de entrada
+            document.getElementById("contractInput").focus();
+          }
+          /*
+           * Aguarde este evento para enviar a mensagem com os dados da conta selecionada para consulta.
+           */
+          if (e.data.event == "PAGE_LOADED") {
+            setTimeout(enviarDadosParaListagem, 1000); // Aguarda 1 segundo para garantir que o iframe carregou
+            document.getElementById("backButton").style.display = "flex";
+            document.getElementById("exitButton").style.display = "flex";
+          }
+
+          /*
+           * Quando este evento for enviado, a aplicação host deve remover qualquer ação que um usuário possa usar para sair da tela.
+           * Deve aguardar o evento PAYMENT_SUCCESS ou PAYMENT_ERROR para liberar tais ações novamente.
+           */
+          if (e.data.event == "PAYMENT_IN_PROGRESS") {
+            console.log("Pagamento em andamento...");
+            // Esconder o botão voltar e sair durante o pagamento
+            document.getElementById("backButton").style.display = "none";
+            document.getElementById("exitButton").style.display = "none";
+          }
+
+          /*
+           * Ao receber este evento, a aplicação host pode liberar as ações que um usuário poderia usar para sair da tela.
+           * O pagamento foi finalizado com sucesso, com as informações da transação disponíveis no objeto transaction.
+           */
+          if (e.data.event == "PAYMENT_OK") {
+            console.log(
+              "Pagamento finalizado com sucesso!!! Dados da transação: ",
+              e.data.transaction
+            );
+            // Mostrar os botões voltar e sair novamente
+            document.getElementById("backButton").style.display = "flex";
+            document.getElementById("exitButton").style.display = "flex";
+          }
+
+          /*
+           * Ao receber este evento, a aplicação host pode liberar as ações que um usuário poderia usar para sair da tela.
+           * O pagamento ainda poderá ser retentado dentro do IFrame
+           * O pagamento foi finalizado com falha na transação.
+           */
+          if (e.data.event == "PAYMENT_ERROR") {
+            console.log(
+              "Pagamento finalizado com falha na transação. Dados da transação: ",
+              e.data.error
+            );
+            // Mostrar os botões voltar e sair novamente
+            document.getElementById("backButton").style.display = "flex";
+            document.getElementById("exitButton").style.display = "flex";
+            //document.getElementById("testIframe").src = BASE_URL + "/bemobi/" + sessionToken + "/light";;
+          }
+
+          /*
+           * Ao receber este evento, a aplicação host pode liberar as ações que um usuário poderia usar para sair da tela.
+           * O pagamento foi finalizado com falha na transação.
+           */
+          if (e.data.event == "PAYMENT_CANCELLED") {
+            console.log("Pagamento Cancelado: ", e.data.error);
+            // Mostrar os botões voltar e sair novamente
+            document.getElementById("backButton").style.display = "flex";
+            document.getElementById("exitButton").style.display = "flex";
+            document.getElementById("testIframe").src =
+              BASE_URL + "/bemobi/" + sessionToken + "/device";
+          }
+
+          /*
+           * Ao receber este evento, a aplicação host deverá retornar à tela inicial.
+           */
+          if (e.data.event == "PAYMENT_TIMEOUT") {
+            // Mostrar os botões voltar e sair novamente
+            document.getElementById("backButton").style.display = "flex";
+            document.getElementById("exitButton").style.display = "flex";
+            document.getElementById("testIframe").src =
+              BASE_URL + "/bemobi/" + sessionToken + "/device";
+          }
         }
-        
-        // Função para enviar dados para listagem
-        function enviarDadosParaListagem() {
-            const iframe = document.querySelector("iframe");
-            const mensagem = {
-                event: "SELECTED_INVOICES",
-                ids: [""],
-                documentNumber: "01205793321",
-                installationCode: contractNumber,
-                contractCode: contractNumber,
-                protocol: "20251003000001",
-            };
-            iframe.contentWindow.postMessage(mensagem, "*");
-        }
+      };
 
-        // Listener para receber mensagens do iframe
-        window.onmessage = function (e) {
-            if (e.origin === BASE_URL) {
-                console.log("Mensagem recebida no iframe:", e.data);
-            }
-            if (e.data.event != undefined) {
-                /*
-                 * Ao receber a mensagem DEVICE_ACTIVATION_OK, será recebido o Session Token, que deve ser armazenado em um cookie do navegador
-                 * ou em algum outro local para ser utilizado nas próximas requisições. Renove-o com frequencia para que não expire.
-                 * Caso seja perdido, será necessário ativar novamente o dispositivo.
-                 */
-                if (e.data.event == "DEVICE_ACTIVATION_OK") {
-                    console.log(
-                        "Dispositivo ativado com sucesso. Session Token: ",
-                        e.data.sessionToken
-                    );
+      // Permitir entrada via teclado e colagem
+      document
+        .getElementById("contractInput")
+        .addEventListener("keydown", function (e) {
+          // Permitir Ctrl+V (colar) e teclas de controle
+          if (e.ctrlKey && e.key === "v") {
+            return; // Permitir colagem
+          }
 
-                    // Salvar o sessionToken em um cookie
-                    if (e.data.sessionToken) {
-                        setCookie("sessionToken", e.data.sessionToken, 30); // Cookie válido por 30 dias
-                        console.log("Session Token salvo em cookie com sucesso!");
-                        document.getElementById("testIframe").src =
-                            BASE_URL + "/bemobi/" + e.data.sessionToken + "/device";
-                    } else {
-                        console.warn(
-                            "Session Token não foi recebido na mensagem DEVICE_ACTIVATION_OK"
-                        );
-                    }
-                }
-
-                /*
-                 * Ao receber a mensagem DEVICE_ACTIVATION_FAILED, o sessionToken deve ser removido do cookie
-                 * pois a ativação falhou e o token não é mais válido.
-                 */
-                if (e.data.event == "DEVICE_ACTIVATION_FAILED") {
-                    console.log(
-                        "Falha na ativação do dispositivo. Removendo sessionToken do cookie."
-                    );
-                    deleteCookie("sessionToken");
-                    console.log("Session Token removido do cookie com sucesso!");
-                }
-
-                /*
-                 * Ao receber a mensagem SITEF_ISSUE_RESOLUTION_OK, a aplicação pode capturar os dados que achar necessário,
-                 * direcionando para o checkout Bemobi quando entender necessário.
-                 */
-                if (e.data.event == "SITEF_ISSUE_RESOLUTION_OK") {
-                    // Ocultar o iframe e mostrar o teclado
-                    document.getElementById('iframeContainer').style.display = 'none';
-                    document.getElementById('keypadContainer').style.display = 'block';
-                    
-                    // Focar no campo de entrada
-                    document.getElementById('contractInput').focus();
-                }
-                /*
-                 * Aguarde este evento para enviar a mensagem com os dados da conta selecionada para consulta.
-                 */
-                if (e.data.event == "PAGE_LOADED") {
-                    setTimeout(enviarDadosParaListagem, 1000); // Aguarda 1 segundo para garantir que o iframe carregou
-                }
-
-                /*
-                 * Quando este evento for enviado, a aplicação host deve remover qualquer ação que um usuário possa usar para sair da tela.
-                 * Deve aguardar o evento PAYMENT_SUCCESS ou PAYMENT_ERROR para liberar tais ações novamente.
-                 */
-                if (e.data.event == "PAYMENT_IN_PROGRESS") {
-                    console.log("Pagamento em andamento...");
-                }
-
-                /*
-                 * Ao receber este evento, a aplicação host pode liberar as ações que um usuário poderia usar para sair da tela.
-                 * O pagamento foi finalizado com sucesso, com as informações da transação disponíveis no objeto transaction.
-                 */
-                if (e.data.event == "PAYMENT_OK") {
-                    console.log(
-                        "Pagamento finalizado com sucesso!!! Dados da transação: ",
-                        e.data.transaction
-                    );
-                }
-
-                /*
-                 * Ao receber este evento, a aplicação host pode liberar as ações que um usuário poderia usar para sair da tela.
-                 * O pagamento ainda poderá ser retentado dentro do IFrame
-                 * O pagamento foi finalizado com falha na transação.
-                 */
-                if (e.data.event == "PAYMENT_ERROR") {
-                    console.log("Pagamento finalizado com falha na transação. Dados da transação: ", e.data.error);
-                    //document.getElementById("testIframe").src = BASE_URL + "/bemobi/" + sessionToken + "/light";;
-                }
-
-                /*
-                 * Ao receber este evento, a aplicação host pode liberar as ações que um usuário poderia usar para sair da tela.
-                 * O pagamento foi finalizado com falha na transação.
-                 */
-                 if (e.data.event == "PAYMENT_CANCELLED") {
-                    console.log("Pagamento Cancelado: ", e.data.error);
-                    document.getElementById("testIframe").src = BASE_URL + "/bemobi/" + sessionToken + "/device";;
-                }
-                
-                /*
-                 * Ao receber este evento, a aplicação host deverá retornar à tela inicial.
-                 */
-                 if (e.data.event == "PAYMENT_TIMEOUT") {
-                    document.getElementById("testIframe").src = BASE_URL + "/bemobi/" + sessionToken + "/device";;
-                }
-            }
-        };
-
-        // Permitir entrada via teclado e colagem
-        document.getElementById('contractInput').addEventListener('keydown', function(e) {
-            // Permitir Ctrl+V (colar) e teclas de controle
-            if (e.ctrlKey && e.key === 'v') {
-                return; // Permitir colagem
-            }
-            
-            // Permitir apenas números e teclas de controle
-            if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
-                e.preventDefault();
-            }
-        });
-
-        // Permitir colagem via Ctrl+V
-        document.getElementById('contractInput').addEventListener('paste', function(e) {
+          // Permitir apenas números e teclas de controle
+          if (
+            !/[0-9]/.test(e.key) &&
+            !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(
+              e.key
+            )
+          ) {
             e.preventDefault();
-            const paste = (e.clipboardData || window.clipboardData).getData('text');
-            
-            // Filtrar apenas números da string colada
-            const numbersOnly = paste.replace(/[^0-9]/g, '');
-            
-            // Adicionar os números ao campo
-            const input = document.getElementById('contractInput');
-            input.value += numbersOnly;
+          }
         });
 
-        // Inicializar quando a página carregar
-        window.onload = function () {
-            sessionToken = getCookie("sessionToken");
-            console.log("Página carregada. Session Token:", sessionToken ? "encontrado" : "não encontrado");
-            
-            // Focar no campo de entrada do contrato
-            document.getElementById('contractInput').focus();
-        };
+      // Permitir colagem via Ctrl+V
+      document
+        .getElementById("contractInput")
+        .addEventListener("paste", function (e) {
+          e.preventDefault();
+          const paste = (e.clipboardData || window.clipboardData).getData(
+            "text"
+          );
+
+          // Filtrar apenas números da string colada
+          const numbersOnly = paste.replace(/[^0-9]/g, "");
+
+          // Adicionar os números ao campo
+          const input = document.getElementById("contractInput");
+          input.value += numbersOnly;
+        });
+
+      // Inicializar quando a página carregar
+      window.onload = function () {
+        sessionToken = getCookie("sessionToken");
+        console.log(
+          "Página carregada. Session Token:",
+          sessionToken ? "encontrado" : "não encontrado"
+        );
+
+        // Focar no campo de entrada do contrato
+        document.getElementById("contractInput").focus();
+      };
     </script>
-</body>
+  </body>
 </html>
