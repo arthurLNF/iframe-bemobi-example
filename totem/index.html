@@ -262,6 +262,28 @@
         window.location.reload();
       }
 
+      // Função centralizada para controlar visibilidade dos botões
+      function displayButtons(displayStatus) {
+        const backButton = document.getElementById("backButton");
+        const exitButton = document.getElementById("exitButton");
+        
+        if (backButton && exitButton) {
+          if (displayStatus === true || displayStatus === "show" || displayStatus === "visible") {
+            backButton.style.visibility = "visible";
+            exitButton.style.visibility = "visible";
+            console.log("Botões exibidos");
+          } else if (displayStatus === false || displayStatus === "hide" || displayStatus === "hidden") {
+            backButton.style.visibility = "hidden";
+            exitButton.style.visibility = "hidden";
+            console.log("Botões ocultados");
+          } else {
+            console.warn("displayButtons: Status inválido. Use true/false, 'show'/'hide', ou 'visible'/'hidden'");
+          }
+        } else {
+          console.error("displayButtons: Botões não encontrados no DOM");
+        }
+      }
+
       // Função de confirmação
       function onConfirm() {
         contractNumber = document.getElementById("contractInput").value;
@@ -282,8 +304,7 @@
         document.getElementById("iframeContainer").style.display = "block";
 
          // Garantir que os botões voltar e sair estejam visíveis
-         document.getElementById("backButton").style.visibility = "visible";
-         document.getElementById("exitButton").style.visibility = "visible";
+         displayButtons(true);
 
         // Inicializar o iframe com a URL correta baseada no sessionToken
         if (sessionToken) {
@@ -382,8 +403,7 @@
            */
           if (e.data.event == "PAGE_LOADED") {
             setTimeout(enviarDadosParaListagem, 1000); // Aguarda 1 segundo para garantir que o iframe carregou
-            document.getElementById("backButton").style.visibility = "visible";
-            document.getElementById("exitButton").style.visibility = "visible";
+            displayButtons(true);
           }
 
           /*
@@ -393,8 +413,7 @@
           if (e.data.event == "PAYMENT_IN_PROGRESS") {
             console.log("Pagamento em andamento...");
             // Esconder o botão voltar e sair durante o pagamento
-            document.getElementById("backButton").style.visibility = "hidden";
-            document.getElementById("exitButton").style.visibility = "hidden";
+            displayButtons(false);
           }
 
           /*
@@ -407,8 +426,7 @@
               e.data.transaction
             );
             // Mostrar os botões voltar e sair novamente
-            document.getElementById("backButton").style.visibility = "visible";
-            document.getElementById("exitButton").style.visibility = "visible";
+            displayButtons(true);
           }
 
           /*
@@ -422,8 +440,7 @@
               e.data.error
             );
             // Mostrar os botões voltar e sair novamente
-            document.getElementById("backButton").style.visibility = "visible";
-            document.getElementById("exitButton").style.visibility = "visible";
+            displayButtons(true);
             //document.getElementById("testIframe").src = BASE_URL + "/bemobi/" + sessionToken + "/light";;
           }
 
@@ -434,8 +451,7 @@
           if (e.data.event == "PAYMENT_CANCELLED") {
             console.log("Pagamento Cancelado: ", e.data.error);
             // Mostrar os botões voltar e sair novamente
-            document.getElementById("backButton").style.visibility = "visible";
-            document.getElementById("exitButton").style.visibility = "visible";
+            displayButtons(true);
             document.getElementById("testIframe").src =
               BASE_URL + "/bemobi/" + sessionToken + "/device";
           }
@@ -445,8 +461,7 @@
            */
           if (e.data.event == "PAYMENT_TIMEOUT") {
             // Mostrar os botões voltar e sair novamente
-            document.getElementById("backButton").style.visibility = "visible";
-            document.getElementById("exitButton").style.visibility = "visible";
+            displayButtons(true);
             document.getElementById("testIframe").src =
               BASE_URL + "/bemobi/" + sessionToken + "/device";
           }
