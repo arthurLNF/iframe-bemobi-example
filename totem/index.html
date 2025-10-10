@@ -10,369 +10,179 @@
       rel="stylesheet"
     />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        padding: 20px;
-      }
-
-      .container {
-        background-color: white;
-        border-radius: 12px;
-        padding: 40px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
-        width: 100%;
-      }
-
-      .iframe-container {
-        height: calc(100vh - 80px); /* Subtrai apenas altura do header (80px) */
-        padding: 0;
-        display: block;
-        margin-top: 80px; /* Espaço para o header fixo */
-      }
-
-      .iframe-container.with-footer {
-        height: calc(
-          100vh - 160px
-        ); /* Subtrai altura do header (80px) e footer (80px) */
-        margin-bottom: 80px; /* Espaço para o footer fixo */
-      }
-      .responsive-iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-      }
-
-      .title {
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 30px;
-      }
-
-      .input-field {
-        width: 100%;
-        height: 50px;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 0 15px;
-        font-size: 18px;
-        text-align: center;
-        margin-bottom: 30px;
-        background-color: white;
-        outline: none;
-        transition: border-color 0.3s ease;
-      }
-
-      .input-field:focus {
-        border-color: #007bff;
-      }
-
-      .keypad {
+      /* Apenas estilos mínimos necessários */
+      .keypad-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 15px;
         max-width: 300px;
         margin: 0 auto;
       }
-
-      .key {
+      
+      .keypad-grid .btn {
         height: 60px;
-        border: none;
-        border-radius: 8px;
         font-size: 20px;
         font-weight: bold;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
-
-      .key:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-
-      .key:active {
-        transform: translateY(0);
-      }
-
-      .number-key {
-        background-color: #007bff;
-        color: white;
-      }
-
-      .backspace-key {
-        background-color: #ffc107;
-        color: white;
-        font-size: 24px;
-      }
-
-      .confirm-key {
-        background-color: #28a745;
-        color: white;
-        font-size: 24px;
-      }
-
-      /* Layout específico para o teclado */
-      .keypad .key:nth-child(1) {
-        grid-column: 1;
-        grid-row: 1;
-      } /* 7 */
-      .keypad .key:nth-child(2) {
-        grid-column: 2;
-        grid-row: 1;
-      } /* 8 */
-      .keypad .key:nth-child(3) {
-        grid-column: 3;
-        grid-row: 1;
-      } /* 9 */
-      .keypad .key:nth-child(4) {
-        grid-column: 1;
-        grid-row: 2;
-      } /* 4 */
-      .keypad .key:nth-child(5) {
-        grid-column: 2;
-        grid-row: 2;
-      } /* 5 */
-      .keypad .key:nth-child(6) {
-        grid-column: 3;
-        grid-row: 2;
-      } /* 6 */
-      .keypad .key:nth-child(7) {
-        grid-column: 1;
-        grid-row: 3;
-      } /* 1 */
-      .keypad .key:nth-child(8) {
-        grid-column: 2;
-        grid-row: 3;
-      } /* 2 */
-      .keypad .key:nth-child(9) {
-        grid-column: 3;
-        grid-row: 3;
-      } /* 3 */
-      .keypad .key:nth-child(10) {
+      
+      .keypad-grid .btn:nth-child(10) {
         grid-column: 2;
         grid-row: 4;
-      } /* 0 */
-      .keypad .key:nth-child(11) {
+      }
+      
+      .keypad-grid .btn:nth-child(11) {
         grid-column: 1;
         grid-row: 4;
-      } /* Backspace */
-      .keypad .key:nth-child(12) {
+      }
+      
+      .keypad-grid .btn:nth-child(12) {
         grid-column: 3;
         grid-row: 4;
-      } /* Confirm */
-
-      /* Estilos do Header */
-      .header {
-        background-color: white;
-        border-bottom: 2px solid #e0e0e0;
-        padding: 0;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        position: fixed;
+      }
+      
+      /* Garantir que elementos ocultos não ocupem espaço */
+      .hidden-element {
+        display: none !important;
+      }
+      
+      /* Layout em tela cheia */
+      .fullscreen-container {
+        position: absolute;
         top: 0;
         left: 0;
         right: 0;
-        z-index: 1000;
-        height: 80px;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
       }
-
-      .header-title {
-        font-size: 20px;
-        font-weight: bold;
-        color: #333;
-        margin: 0;
-        text-align: center;
-      }
-
-      .back-button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 10px 15px;
-        font-size: 14px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.2s ease;
+      
+      .keypad-fullscreen {
+        background-color: #f8f9fa;
         display: flex;
         align-items: center;
-        gap: 5px;
-        width: 100%;
         justify-content: center;
       }
-
-      .back-button:hover {
-        background-color: #0056b3;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
-      }
-
-      .back-button:active {
-        transform: translateY(0);
-      }
-
-      .back-button::before {
-        content: "←";
-        font-size: 18px;
-      }
-
-      /* Estilos do Footer */
-      .footer {
+      
+      .iframe-fullscreen {
         background-color: white;
-        border-top: 2px solid #e0e0e0;
-        padding: 15px 0;
-        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        height: 80px;
-      }
-
-      .exit-button {
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 12px 30px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .exit-button:hover {
-        background-color: #c82333;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
-      }
-
-      .exit-button:active {
-        transform: translateY(0);
-      }
-
-      .exit-button::before {
-        content: "🚪";
-        font-size: 18px;
       }
     </style>
   </head>
-  <body>
-    <!-- Container do teclado (inicialmente visível) -->
-    <div class="container" id="keypadContainer">
-      <h1 class="title">Informe o Contrato</h1>
-
-      <input
-        type="text"
-        id="contractInput"
-        class="input-field"
-        placeholder="Digite o número do contrato"
-      />
-
-      <div class="keypad">
-        <button class="key number-key" onclick="addDigit('7')">7</button>
-        <button class="key number-key" onclick="addDigit('8')">8</button>
-        <button class="key number-key" onclick="addDigit('9')">9</button>
-        <button class="key number-key" onclick="addDigit('4')">4</button>
-        <button class="key number-key" onclick="addDigit('5')">5</button>
-        <button class="key number-key" onclick="addDigit('6')">6</button>
-        <button class="key number-key" onclick="addDigit('1')">1</button>
-        <button class="key number-key" onclick="addDigit('2')">2</button>
-        <button class="key number-key" onclick="addDigit('3')">3</button>
-        <button class="key number-key" onclick="addDigit('0')">0</button>
-        <button class="key backspace-key" onclick="removeDigit()">←</button>
-        <button class="key confirm-key" onclick="onConfirm()">✓</button>
-      </div>
-    </div>
-
-    <!-- Header (inicialmente oculto) -->
-    <div class="header" id="headerContainer" style="display: none">
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Header -->
+    <header
+      class="bg-white border-bottom shadow-sm"
+      id="headerContainer"
+      style="display: none"
+    >
       <div class="container-fluid">
-        <div class="row align-items-center">
-          <div class="row p-1">
-            <div class="col-1">
-              <button
-                class="btn btn-primary"
-                id="backButton"
-                onclick="voltarParaTeclado()"
-              >
-                < Voltar
-              </button>
-            </div>
-            <div class="col-11"></div>
+        <div class="row align-items-center py-3">
+          <div class="col-2">
+            <button
+              class="btn btn-primary btn-sm"
+              id="backButton"
+              onclick="voltarParaTeclado()"
+            >
+              ← Voltar
+            </button>
           </div>
-          <div class="row p-1">
-            <div class="col-12">
-              <h1 class="header-title">TERMINAL DE AUTOATENDIMENTO</h1>
+          <div class="col-10">
+            
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow-1 position-relative">
+      <!-- Teclado -->
+      <div
+        class="fullscreen-container keypad-fullscreen"
+        id="keypadContainer"
+      >
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+              <div class="card shadow">
+                <div class="card-body p-4">
+                  <h1 class="h3 text-center mb-4 fw-bold">
+                    Informe o Contrato
+                  </h1>
+
+                  <input
+                    type="text"
+                    id="contractInput"
+                    class="form-control form-control-lg text-center mb-4"
+                    placeholder="Digite o número do contrato"
+                  />
+
+                  <div class="keypad-grid">
+                    <button class="btn btn-primary" onclick="addDigit('7')">
+                      7
+                    </button>
+                    <button class="btn btn-primary" onclick="addDigit('8')">
+                      8
+                    </button>
+                    <button class="btn btn-primary" onclick="addDigit('9')">
+                      9
+                    </button>
+                    <button class="btn btn-primary" onclick="addDigit('4')">
+                      4
+                    </button>
+                    <button class="btn btn-primary" onclick="addDigit('5')">
+                      5
+                    </button>
+                    <button class="btn btn-primary" onclick="addDigit('6')">
+                      6
+                    </button>
+                    <button class="btn btn-primary" onclick="addDigit('1')">
+                      1
+                    </button>
+                    <button class="btn btn-primary" onclick="addDigit('2')">
+                      2
+                    </button>
+                    <button class="btn btn-primary" onclick="addDigit('3')">
+                      3
+                    </button>
+                    <button class="btn btn-primary" onclick="addDigit('0')">
+                      0
+                    </button>
+                    <button class="btn btn-warning" onclick="removeDigit()">
+                      ←
+                    </button>
+                    <button class="btn btn-success" onclick="onConfirm()">
+                      ✓
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Footer (inicialmente oculto) -->
-    <div class="footer" id="footerContainer" style="display: none">
+      <!-- Iframe -->
+      <div class="fullscreen-container iframe-fullscreen" id="iframeContainer" style="display: none">
+        <iframe id="testIframe" src="" class="w-100 h-100 border-0"></iframe>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="bg-white border-top shadow-sm"
+      id="footerContainer"
+      style="display: none"
+    >
       <div class="container-fluid">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center py-3">
           <div class="col-auto">
-            <button
-              class="btn btn-danger btn-sm"
-              id="exitButton"
-              onclick="sair()"
-            >
+            <button class="btn btn-danger" id="exitButton" onclick="sair()">
               X Sair
             </button>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Container do iframe (inicialmente oculto) -->
-    <div
-      class="container-fluid iframe-container"
-      id="iframeContainer"
-      style="display: none"
-    >
-      <div class="row h-100">
-        <div class="col-12">
-          <!--
-                O IFrame deve primeiro chamar a URL raiz, para que a ativação do dispositivo seja
-                verificada e as pendências resolvidas.
-
-                Se a ativação ocorrer com sucesso, o IFrame receberá a mensagem DEVICE_ACTIVATION_OK.
-                Caso contrário, o IFrame receberá a mensagem DEVICE_ACTIVATION_ERROR, e deverá encerrar
-                a operação, acionando o suporte para obter credenciais para o totem.
-
-                Após a ativação com sucesso, a aplicação iniciará automaticamente a resolução de pendências,
-                e ao final enviará a mensagem SITEF_ISSUE_RESOLUTION_OK. Caso haja falha na resolução de pendências,
-                a mensagem enviada será SITEF_ISSUE_RESOLUTION_ERROR, e o IFrame deverá encerrar a operação, acionando o suporte.
-
-                -->
-          <iframe id="testIframe" src="" class="responsive-iframe"></iframe>
-        </div>
-      </div>
-    </div>
+    </footer>
 
     <!-- Bootstrap 5 JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -427,13 +237,10 @@
         document.getElementById("headerContainer").style.display = "none";
         document.getElementById("footerContainer").style.display = "none";
 
-        // Remover classe para ajustar altura do iframe
-        document
-          .getElementById("iframeContainer")
-          .classList.remove("with-footer");
-
         // Mostrar o teclado
-        document.getElementById("keypadContainer").style.display = "block";
+        document
+          .getElementById("keypadContainer")
+          .classList.remove("hidden-element");
 
         // Limpar o campo de entrada e focar
         const input = document.getElementById("contractInput");
@@ -461,13 +268,12 @@
         console.log("Número do contrato confirmado:", contractNumber);
 
         // Ocultar o teclado e mostrar o header, footer e iframe
-        document.getElementById("keypadContainer").style.display = "none";
+        document
+          .getElementById("keypadContainer")
+          .classList.add("hidden-element");
         document.getElementById("headerContainer").style.display = "block";
         document.getElementById("footerContainer").style.display = "block";
         document.getElementById("iframeContainer").style.display = "block";
-
-        // Adicionar classe para ajustar altura do iframe com footer
-        document.getElementById("iframeContainer").classList.add("with-footer");
 
         // Garantir que os botões voltar e sair estejam visíveis
         document.getElementById("backButton").style.display = "flex";
@@ -558,12 +364,9 @@
             document.getElementById("iframeContainer").style.display = "none";
             document.getElementById("headerContainer").style.display = "none";
             document.getElementById("footerContainer").style.display = "none";
-            document.getElementById("keypadContainer").style.display = "block";
-
-            // Remover classe para ajustar altura do iframe
             document
-              .getElementById("iframeContainer")
-              .classList.remove("with-footer");
+              .getElementById("keypadContainer")
+              .classList.remove("hidden-element");
 
             // Focar no campo de entrada
             document.getElementById("contractInput").focus();
