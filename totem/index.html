@@ -18,33 +18,33 @@
         max-width: 300px;
         margin: 0 auto;
       }
-      
+
       .keypad-grid .btn {
         height: 60px;
         font-size: 20px;
         font-weight: bold;
       }
-      
+
       .keypad-grid .btn:nth-child(10) {
         grid-column: 2;
         grid-row: 4;
       }
-      
+
       .keypad-grid .btn:nth-child(11) {
         grid-column: 1;
         grid-row: 4;
       }
-      
+
       .keypad-grid .btn:nth-child(12) {
         grid-column: 3;
         grid-row: 4;
       }
-      
+
       /* Garantir que elementos ocultos não ocupem espaço */
       .hidden-element {
         display: none !important;
       }
-      
+
       /* Layout em tela cheia */
       .fullscreen-container {
         position: absolute;
@@ -55,14 +55,14 @@
         width: 100%;
         height: 100%;
       }
-      
+
       .keypad-fullscreen {
         background-color: #f8f9fa;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      
+
       .iframe-fullscreen {
         background-color: white;
       }
@@ -97,10 +97,7 @@
     <!-- Main Content -->
     <main class="flex-grow-1 position-relative">
       <!-- Teclado -->
-      <div
-        class="fullscreen-container keypad-fullscreen"
-        id="keypadContainer"
-      >
+      <div class="fullscreen-container keypad-fullscreen" id="keypadContainer">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
@@ -163,7 +160,11 @@
       </div>
 
       <!-- Iframe -->
-      <div class="fullscreen-container iframe-fullscreen" id="iframeContainer" style="display: none">
+      <div
+        class="fullscreen-container iframe-fullscreen"
+        id="iframeContainer"
+        style="display: none"
+      >
         <iframe id="testIframe" src="" class="w-100 h-100 border-0"></iframe>
       </div>
     </main>
@@ -177,9 +178,9 @@
       <div class="container-fluid">
         <div class="row justify-content-center py-3">
           <div class="col-auto">
-            <button 
-              class="btn btn-danger" 
-              id="exitButton" 
+            <button
+              class="btn btn-danger"
+              id="exitButton"
               onclick="sair()"
               style="visibility: hidden"
             >
@@ -238,15 +239,8 @@
 
       // Função para voltar ao teclado
       function voltarParaTeclado() {
-        // Ocultar o iframe, header e footer
-        document.getElementById("iframeContainer").style.display = "none";
-        document.getElementById("headerContainer").style.display = "none";
-        document.getElementById("footerContainer").style.display = "none";
-
-        // Mostrar o teclado
-        document
-          .getElementById("keypadContainer")
-          .classList.remove("hidden-element");
+        // Mostrar apenas o teclado
+        displayElements(true, false, false, false);
 
         // Limpar o campo de entrada e focar
         const input = document.getElementById("contractInput");
@@ -266,28 +260,94 @@
       function displayButtons(displayStatus) {
         const backButton = document.getElementById("backButton");
         const exitButton = document.getElementById("exitButton");
-        
+
         if (backButton && exitButton) {
-          if (displayStatus === true || displayStatus === "show" || displayStatus === "visible") {
-            backButton.style.visibility = "visible";
+          if (
+            displayStatus === true ||
+            displayStatus === "show" ||
+            displayStatus === "visible"
+          ) {
+            backButton.style.visibility = "hidden";
             exitButton.style.visibility = "visible";
             console.log("Botões exibidos");
-          } else if (displayStatus === false || displayStatus === "hide" || displayStatus === "hidden") {
+          } else if (
+            displayStatus === false ||
+            displayStatus === "hide" ||
+            displayStatus === "hidden"
+          ) {
             backButton.style.visibility = "hidden";
             exitButton.style.visibility = "hidden";
             console.log("Botões ocultados");
           } else {
-            console.warn("displayButtons: Status inválido. Use true/false, 'show'/'hide', ou 'visible'/'hidden'");
+            console.warn(
+              "displayButtons: Status inválido. Use true/false, 'show'/'hide', ou 'visible'/'hidden'"
+            );
           }
         } else {
           console.error("displayButtons: Botões não encontrados no DOM");
         }
       }
 
+      // Função para controlar visibilidade dos elementos principais
+      function displayElements(keypad, header, footer, iframe) {
+        const keypadContainer = document.getElementById("keypadContainer");
+        const headerContainer = document.getElementById("headerContainer");
+        const footerContainer = document.getElementById("footerContainer");
+        const iframeContainer = document.getElementById("iframeContainer");
+
+        // Controlar teclado
+        if (keypad === true || keypad === "show" || keypad === "visible") {
+          keypadContainer.classList.remove("hidden-element");
+        } else if (
+          keypad === false ||
+          keypad === "hide" ||
+          keypad === "hidden"
+        ) {
+          keypadContainer.classList.add("hidden-element");
+        }
+
+        // Controlar header
+        if (header === true || header === "show" || header === "visible") {
+          headerContainer.style.display = "block";
+        } else if (
+          header === false ||
+          header === "hide" ||
+          header === "hidden"
+        ) {
+          headerContainer.style.display = "none";
+        }
+
+        // Controlar footer
+        if (footer === true || footer === "show" || footer === "visible") {
+          footerContainer.style.display = "block";
+        } else if (
+          footer === false ||
+          footer === "hide" ||
+          footer === "hidden"
+        ) {
+          footerContainer.style.display = "none";
+        }
+
+        // Controlar iframe
+        if (iframe === true || iframe === "show" || iframe === "visible") {
+          iframeContainer.style.display = "block";
+        } else if (
+          iframe === false ||
+          iframe === "hide" ||
+          iframe === "hidden"
+        ) {
+          iframeContainer.style.display = "none";
+        }
+
+        console.log(
+          `Elementos: teclado=${keypad}, header=${header}, footer=${footer}, iframe=${iframe}`
+        );
+      }
+
       // Função de confirmação
       function onConfirm() {
         contractNumber = document.getElementById("contractInput").value;
-
+        document.getElementById("contractInput").value = "";
         if (contractNumber.trim() === "") {
           alert("Por favor, digite um número de contrato.");
           return;
@@ -296,15 +356,8 @@
         console.log("Número do contrato confirmado:", contractNumber);
 
         // Ocultar o teclado e mostrar o header, footer e iframe
-        document
-          .getElementById("keypadContainer")
-          .classList.add("hidden-element");
-        document.getElementById("headerContainer").style.display = "block";
-        document.getElementById("footerContainer").style.display = "block";
-        document.getElementById("iframeContainer").style.display = "block";
-
-         // Garantir que os botões voltar e sair estejam visíveis
-         displayButtons(true);
+        displayElements(false, true, true, true);
+        displayButtons(true);
 
         // Inicializar o iframe com a URL correta baseada no sessionToken
         if (sessionToken) {
@@ -360,9 +413,11 @@
             // Salvar o sessionToken em um cookie
             if (e.data.sessionToken) {
               setCookie("sessionToken", e.data.sessionToken, 30); // Cookie válido por 30 dias
+              sessionToken = e.data.sessionToken; // Atualizar variável global
               console.log("Session Token salvo em cookie com sucesso!");
-              document.getElementById("testIframe").src =
-                BASE_URL + "/bemobi/" + e.data.sessionToken + "/device";
+
+              // Mostrar teclado para digitação de contrato
+              displayElements(true, false, false, false);
             } else {
               console.warn(
                 "Session Token não foi recebido na mensagem DEVICE_ACTIVATION_OK"
@@ -376,10 +431,14 @@
            */
           if (e.data.event == "DEVICE_ACTIVATION_FAILED") {
             console.log(
-              "Falha na ativação do dispositivo. Removendo sessionToken do cookie."
+              "Falha na ativação do dispositivo. Recarregando página."
             );
             deleteCookie("sessionToken");
+            sessionToken = undefined; // Limpar variável global
             console.log("Session Token removido do cookie com sucesso!");
+
+            // Recarregar a página
+            window.location.reload();
           }
 
           /*
@@ -387,13 +446,8 @@
            * direcionando para o checkout Bemobi quando entender necessário.
            */
           if (e.data.event == "SITEF_ISSUE_RESOLUTION_OK") {
-            // Ocultar o iframe, header e footer, mostrar o teclado
-            document.getElementById("iframeContainer").style.display = "none";
-            document.getElementById("headerContainer").style.display = "none";
-            document.getElementById("footerContainer").style.display = "none";
-            document
-              .getElementById("keypadContainer")
-              .classList.remove("hidden-element");
+            // Mostrar apenas o teclado
+            displayElements(true, false, false, false);
 
             // Focar no campo de entrada
             document.getElementById("contractInput").focus();
@@ -452,8 +506,7 @@
             console.log("Pagamento Cancelado: ", e.data.error);
             // Mostrar os botões voltar e sair novamente
             displayButtons(true);
-            document.getElementById("testIframe").src =
-              BASE_URL + "/bemobi/" + sessionToken + "/device";
+            window.location.reload();
           }
 
           /*
@@ -462,8 +515,7 @@
           if (e.data.event == "PAYMENT_TIMEOUT") {
             // Mostrar os botões voltar e sair novamente
             displayButtons(true);
-            document.getElementById("testIframe").src =
-              BASE_URL + "/bemobi/" + sessionToken + "/device";
+            window.location.reload();
           }
         }
       };
@@ -513,8 +565,24 @@
           sessionToken ? "encontrado" : "não encontrado"
         );
 
-        // Focar no campo de entrada do contrato
-        document.getElementById("contractInput").focus();
+        // Novo fluxo: verificar sessionToken
+        if (sessionToken) {
+          // Com sessionToken: mostrar iframe para device
+          console.log(
+            "Iniciando com sessionToken - redirecionando para device"
+          );
+          displayElements(false, false, false, true);
+          document.getElementById("testIframe").src =
+            BASE_URL + "/bemobi/" + sessionToken + "/device";
+        } else {
+          // Sem sessionToken: mostrar iframe para ativação
+          console.log(
+            "Iniciando sem sessionToken - redirecionando para ativação"
+          );
+          displayElements(false, false, false, true);
+          document.getElementById("testIframe").src =
+            BASE_URL + "/activation/serial";
+        }
       };
     </script>
   </body>
