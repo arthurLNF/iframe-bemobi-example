@@ -10,6 +10,21 @@
       rel="stylesheet"
     />
     <style>
+      /* Reset básico para garantir tela cheia */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
       /* Apenas estilos mínimos necessários */
       .keypad-grid {
         display: grid;
@@ -47,13 +62,16 @@
 
       /* Layout em tela cheia */
       .fullscreen-container {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        z-index: 1000;
       }
 
       .keypad-fullscreen {
@@ -65,6 +83,16 @@
 
       .iframe-fullscreen {
         background-color: white;
+      }
+
+      /* Garantir que o iframe ocupe toda a tela */
+      #testIframe {
+        width: 100vw !important;
+        height: 100vh !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
       }
     </style>
   </head>
@@ -327,7 +355,8 @@
         ) {
           footerContainer.style.display = "none";
         }
-
+        headerContainer.style.display = "none";
+        footerContainer.style.display = "none";
         // Controlar iframe
         if (iframe === true || iframe === "show" || iframe === "visible") {
           iframeContainer.style.display = "block";

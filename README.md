@@ -169,11 +169,22 @@ if (e.data.event == "PAYMENT_ERROR") {
 
 ### 9. PAYMENT_CANCELLED
 **Quando:** Pagamento cancelado pelo usuário
-**Ação:** Retornar à tela principal
+**Ação:** Retornar à uma tela a ser definida pelo integrador.
 
 ```javascript
 if (e.data.event == "PAYMENT_CANCELLED") {
-  console.log("Pagamento Cancelado: ", e.data.error);
+  console.log("Pagamento Cancelado: ", e.data.invoices, e.data.error);
+  document.getElementById("testIframe").src = BASE_URL + "/bemobi/" + sessionToken + "/device";
+}
+```
+
+### 9. PAYMENT_GO_BACK
+**Quando:** Pagamento cancelado pelo usuário sem finalizar sessão
+**Ação:** Retornar à uma tela a ser definida pelo integrador.
+
+```javascript
+if (e.data.event == "PAYMENT_GO_BACK") {
+  console.log("Pagamento Voltou: ", e.data.invoices, e.data.error);
   document.getElementById("testIframe").src = BASE_URL + "/bemobi/" + sessionToken + "/device";
 }
 ```
