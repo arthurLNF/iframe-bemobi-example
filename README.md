@@ -45,6 +45,34 @@ function deleteCookie(name) {
 }
 ```
 
+### Configuração do IFrame
+
+É **essencial** que o elemento iframe inclua o atributo `allow="local-network-access"` para permitir que o conteúdo do iframe faça requisições para servidores locais (localhost, 127.0.0.1).
+
+```html
+<iframe 
+  id="testIframe" 
+  src="" 
+  class="w-100 h-100 border-0" 
+  allow="local-network-access">
+</iframe>
+```
+
+#### Motivo Técnico
+
+Navegadores modernos implementam a especificação **Private Network Access** (também conhecida como CORS-RFC1918), que bloqueia requisições de páginas HTTPS para endereços de rede local (localhost, 127.0.0.1, endereços privados) por questões de segurança.
+
+Quando o iframe carregado a partir de uma origem HTTPS (como `https://totem-bemobi-web.vercel.app`) tenta fazer requisições para um servidor local (como `https://127.0.0.1/agente/clisitef/session`), o navegador bloqueia essas requisições e retorna um erro de CORS:
+
+```
+Access to fetch at 'https://127.0.0.1/agente/clisitef/session' from origin 'https://totem-bemobi-web.vercel.app' 
+has been blocked by CORS policy: Permission was denied for this request to access the `unknown` address space.
+```
+
+O atributo `allow="local-network-access"` concede explicitamente permissão para que o iframe faça requisições para a rede local, resolvendo esse problema. Isso é especialmente necessário quando o iframe precisa se comunicar com serviços locais, como o SITEF rodando em `127.0.0.1`.
+
+**Nota sobre compatibilidade:** Este atributo funciona em navegadores baseados em Chromium (Chrome, Edge) a partir de versões recentes. Para outros navegadores, pode ser necessário configurar o servidor local com CORS adequado ou usar outras soluções como túneis HTTPS.
+
 ## Fluxo de Inicialização
 
 ### Verificação de Session Token

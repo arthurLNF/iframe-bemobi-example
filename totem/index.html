@@ -17,7 +17,8 @@
         box-sizing: border-box;
       }
 
-      html, body {
+      html,
+      body {
         margin: 0;
         padding: 0;
         width: 100%;
@@ -193,7 +194,7 @@
         id="iframeContainer"
         style="display: none"
       >
-        <iframe id="testIframe" src="" class="w-100 h-100 border-0"></iframe>
+        <iframe id="testIframe" src="" class="w-100 h-100 border-0" allow="local-network-access"></iframe>
       </div>
     </main>
 
@@ -224,8 +225,8 @@
     <script>
       let sessionToken = undefined;
       // URL base da aplicação
-      //const BASE_URL = "https://totem-bemobi-web.vercel.app";
-      const BASE_URL = "http://localhost:3000";
+      const BASE_URL = "https://totem-bemobi-web.vercel.app";
+      //const BASE_URL = "http://localhost:3000";
 
       // Variável para armazenar o número do contrato
       let contractNumber = "";
@@ -413,7 +414,7 @@
         const iframe = document.querySelector("iframe");
         const mensagem = {
           event: "SELECTED_INVOICES",
-          ids: [""],
+          ids: ["561310138305"],
           documentNumber: "01205793321",
           installationCode: contractNumber,
           contractCode: contractNumber,
@@ -532,7 +533,14 @@
            * O pagamento foi finalizado com falha na transação.
            */
           if (e.data.event == "PAYMENT_CANCELLED") {
-            console.log("Pagamento Cancelado: ", e.data.error);
+            //console.log("Pagamento Cancelado: ", e.data.error, e.data.transaction);
+            // Mostrar os botões voltar e sair novamente
+            displayButtons(true);
+            window.location.reload();
+          }
+
+          if (e.data.event == "PAYMENT_GO_BACK") {
+            //console.log("Voltou do pagamento: ", e.data.error, e.data.transaction);
             // Mostrar os botões voltar e sair novamente
             displayButtons(true);
             window.location.reload();
@@ -542,6 +550,7 @@
            * Ao receber este evento, a aplicação host deverá retornar à tela inicial.
            */
           if (e.data.event == "PAYMENT_TIMEOUT") {
+            //console.log("Pagamento Timeout");
             // Mostrar os botões voltar e sair novamente
             displayButtons(true);
             window.location.reload();
