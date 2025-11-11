@@ -114,7 +114,18 @@ if (e.data.event == "DEVICE_ACTIVATION_OK") {
 }
 ```
 
-### 2. DEVICE_ACTIVATION_FAILED
+### 2. DEVICE_ACTIVATION_REQUEST
+**Quando:** Requisição de ativação do dispositivo iniciada
+**Ação:** Nada é necessário fazer, apenas aguardar a ativação do dispositivo. Pode-se usar este evento para enviar uma notificação para o suporte, informando que o dispositivo precisa ser ativado.
+
+```javascript
+if (e.data.event == "DEVICE_ACTIVATION_REQUEST") {
+  console.log("Requisição de ativação de dispositivo recebida:", e.data);
+  // Opcional: Enviar notificação para o suporte informando que o dispositivo precisa ser ativado
+}
+```
+
+### 3. DEVICE_ACTIVATION_FAILED
 **Quando:** Falha na ativação do dispositivo
 **Ação:** Remover sessionToken e acionar suporte para ativação/reativação do totem
 
@@ -127,7 +138,7 @@ if (e.data.event == "DEVICE_ACTIVATION_FAILED") {
 }
 ```
 
-### 3. SITEF_ISSUE_RESOLUTION_OK
+### 4. SITEF_ISSUE_RESOLUTION_OK
 **Quando:** Resolução de pendências concluída com sucesso
 **Ação:** Redirecionar para a listagem.
 
@@ -138,7 +149,7 @@ if (e.data.event == "SITEF_ISSUE_RESOLUTION_OK") {
 }
 ```
 
-### 4. SITEF_ISSUE_RESOLUTION_ERROR
+### 5. SITEF_ISSUE_RESOLUTION_ERROR
 **Quando:** Falha na resolução de pendências
 **Ação:** Nada a fazer. Deixe que o terminal siga o fluxo normal. Trata-se apenas de um aviso.
 
@@ -149,7 +160,7 @@ if (e.data.event == "SITEF_ISSUE_RESOLUTION_ERROR") {
 }
 ```
 
-### 5. PAGE_LOADED
+### 6. PAGE_LOADED
 **Quando:** Página do iframe carregou completamente
 **Ação:** Enviar dados para listagem após delay. Recomenda-se aguardar 1 segundo antes de enviar a mensagem, como no exemplo.
 
@@ -159,7 +170,7 @@ if (e.data.event == "PAGE_LOADED") {
 }
 ```
 
-### 6. PAYMENT_IN_PROGRESS
+### 7. PAYMENT_IN_PROGRESS
 **Quando:** Pagamento iniciado
 **Ação:** Bloquear ações de saída da tela. Durante o fluxo de pagamento é imprescindível que o cliente permaneça na tela até que o Checkout termine com o evento adequado. Aguardar PAYMENT_SUCCESS, PAYMENT_ERROR ou PAYMENT_CANCELLED para liberar outras ações.
 
@@ -171,7 +182,7 @@ if (e.data.event == "PAYMENT_IN_PROGRESS") {
 }
 ```
 
-### 7. PAYMENT_OK
+### 8. PAYMENT_OK
 **Quando:** Pagamento finalizado com sucesso
 **Ação:** Liberar ações de saída e processar dados da transação
 
@@ -183,7 +194,7 @@ if (e.data.event == "PAYMENT_OK") {
 }
 ```
 
-### 8. PAYMENT_ERROR
+### 9. PAYMENT_ERROR
 **Quando:** Pagamento finalizado com falha
 **Ação:** Liberar ações de saída e tratar erro. O checkout ainda pode permitir retentativa. Recomenda-se que use esse evento apenas como informativo.
 
@@ -195,7 +206,7 @@ if (e.data.event == "PAYMENT_ERROR") {
 }
 ```
 
-### 9. PAYMENT_CANCELLED
+### 10. PAYMENT_CANCELLED
 **Quando:** Pagamento cancelado pelo usuário
 **Ação:** Retornar à uma tela a ser definida pelo integrador.
 
@@ -206,7 +217,7 @@ if (e.data.event == "PAYMENT_CANCELLED") {
 }
 ```
 
-### 9. PAYMENT_GO_BACK
+### 11. PAYMENT_GO_BACK
 **Quando:** Pagamento cancelado pelo usuário sem finalizar sessão
 **Ação:** Retornar à uma tela a ser definida pelo integrador.
 
@@ -217,7 +228,7 @@ if (e.data.event == "PAYMENT_GO_BACK") {
 }
 ```
 
-### 10. PAYMENT_TIMEOUT
+### 12. PAYMENT_TIMEOUT
 **Quando:** Em casos de abandono do totem pelo cliente. Ocorre em 1 minuto de inatividade.
 **Ação:** Retornar à tela inicial.
 

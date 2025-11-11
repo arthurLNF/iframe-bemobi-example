@@ -194,7 +194,12 @@
         id="iframeContainer"
         style="display: none"
       >
-        <iframe id="testIframe" src="" class="w-100 h-100 border-0" allow="local-network-access"></iframe>
+        <iframe
+          id="testIframe"
+          src=""
+          class="w-100 h-100 border-0"
+          allow="local-network-access"
+        ></iframe>
       </div>
     </main>
 
@@ -418,9 +423,9 @@
           documentNumber: "01205793321",
           installationCode: contractNumber,
           contractCode: "3019024597", //contractNumber,
-          protocol: "20251003000001",
-          protocol2:"20000200000000",
-          partnerNumber:"30000050000000",
+          protocol: "6904422F0A14561CE10000000A034F96",
+          protocol2: "3637655199",
+          partnerNumber: "0031965321",
         };
         iframe.contentWindow.postMessage(mensagem, "*");
       }
@@ -433,7 +438,7 @@
         if (e.data.event != undefined) {
           /*
            * Ao receber a mensagem DEVICE_ACTIVATION_OK, será recebido o Session Token, que deve ser armazenado em um cookie do navegador
-           * ou em algum outro local para ser utilizado nas próximas requisições. 
+           * ou em algum outro local para ser utilizado nas próximas requisições.
            * Caso seja perdido, será necessário ativar novamente o dispositivo.
            */
           if (e.data.event == "DEVICE_ACTIVATION_OK") {
@@ -455,6 +460,17 @@
                 "Session Token não foi recebido na mensagem DEVICE_ACTIVATION_OK"
               );
             }
+          }
+
+          /*
+           * Ao receber a mensagem DEVICE_ACTIVATION_REQUEST, nada é necessário fazer, apenas aguardar a ativação do dispositivo.
+           * Pode-se usar este evento para enviar uma notificação para o suporte, informando que o dispositivo precisa ser ativado.
+           */
+          if (e.data.event == "DEVICE_ACTIVATION_REQUEST") {
+            console.log(
+              "Requisição de ativação de dispositivo recebida:",
+              e.data
+            );
           }
 
           /*
