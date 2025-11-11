@@ -225,8 +225,8 @@
     <script>
       let sessionToken = undefined;
       // URL base da aplicação
-      const BASE_URL = "https://totem-bemobi-web.vercel.app";
-      //const BASE_URL = "http://localhost:3000";
+      //const BASE_URL = "https://totem-bemobi-web.vercel.app";
+      const BASE_URL = "http://localhost:3000";
 
       // Variável para armazenar o número do contrato
       let contractNumber = "";
@@ -417,8 +417,10 @@
           ids: ["561310138305"],
           documentNumber: "01205793321",
           installationCode: contractNumber,
-          contractCode: contractNumber,
+          contractCode: "3019024597", //contractNumber,
           protocol: "20251003000001",
+          protocol2:"20000200000000",
+          partnerNumber:"30000050000000",
         };
         iframe.contentWindow.postMessage(mensagem, "*");
       }
@@ -431,7 +433,7 @@
         if (e.data.event != undefined) {
           /*
            * Ao receber a mensagem DEVICE_ACTIVATION_OK, será recebido o Session Token, que deve ser armazenado em um cookie do navegador
-           * ou em algum outro local para ser utilizado nas próximas requisições. Renove-o com frequencia para que não expire.
+           * ou em algum outro local para ser utilizado nas próximas requisições. 
            * Caso seja perdido, será necessário ativar novamente o dispositivo.
            */
           if (e.data.event == "DEVICE_ACTIVATION_OK") {

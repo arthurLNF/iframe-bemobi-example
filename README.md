@@ -239,7 +239,9 @@ function enviarDadosParaListagem() {
     documentNumber: "01205793321", //CPF ou CNPJ do cliente
     installationCode: "3018353422", //Código de instalação
     contractCode: "3019024597", //Código do contrato
-    protocol: "20251003000001", //Protocolo pai
+    protocol: "20251003000001", //EX_GUID do Protocolo pai
+    protocol2: "20000200000000", //Protocolo pai
+    partnerNumber: "30000050000000", //Número do parceiro de negócios
   };
   iframe.contentWindow.postMessage(mensagem, "*");
 }
