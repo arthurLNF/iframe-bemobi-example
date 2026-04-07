@@ -231,6 +231,7 @@
       let sessionToken = undefined;
       // URL base da aplicação
       //const BASE_URL = "https://totem-bemobi-web.vercel.app";
+      //const BASE_URL = "https://light.plimpag.com.br";
       const BASE_URL = "http://localhost:3000";
 
       // Variável para armazenar o número do contrato
@@ -398,7 +399,7 @@
         if (sessionToken) {
           // Se o sessionToken existe, redirecionar para a URL com o token
           document.getElementById("testIframe").src =
-            BASE_URL + "/bemobi/" + sessionToken + "/light";
+            BASE_URL + "/bemobi/" + sessionToken + "/light?newCart=1";
           console.log(
             "Redirecionando para checkout com sessionToken:",
             BASE_URL + "/bemobi/" + sessionToken + "/light"
@@ -419,13 +420,14 @@
         const iframe = document.querySelector("iframe");
         const mensagem = {
           event: "SELECTED_INVOICES",
-          ids: ["561310138305"],
-          documentNumber: "01205793321",
-          installationCode: contractNumber,
-          contractCode: "3019024597", //contractNumber,
-          protocol: "6904422F0A14561CE10000000A034F96",
-          protocol2: "3637655199",
-          partnerNumber: "0031965321",
+          ids: ["538509015969", "599309296865"],
+          documentNumber: "10695532715",//"08768791720",
+          installationCode: "041274348",//"0410115081",//contractNumber,
+          contractCode: "010024968924",//"010121280616", //contractNumber,
+          protocol: "691773975EBE561FE10000000A034F96",
+          protocol2: "2327336142",
+          partnerNumber: "0030890426",
+          hostName: "0258133"
         };
         iframe.contentWindow.postMessage(mensagem, "*");
       }
@@ -524,7 +526,7 @@
            */
           if (e.data.event == "PAYMENT_OK") {
             console.log(
-              "Pagamento finalizado com sucesso!!! Dados da transação: ",
+              "PAYMENT_OK: Pagamento finalizado com sucesso!!! Dados da transação: ",
               e.data.transaction
             );
             // Mostrar os botões voltar e sair novamente

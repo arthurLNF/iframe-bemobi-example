@@ -289,10 +289,10 @@ Enquanto o session token estiver válido e um evento `DEVICE_ACTIVATION_FAILED` 
 2. **Resolução de Pendências**: Aguardar `SITEF_ISSUE_RESOLUTION_OK`. Ao receber esse status, a aplicação pode ir para o checkout ou fazer outras atividades próprias.
 
 ### Checkout
-1. **Listagem de faturas**: Redirecionar para `BASE_URL/bemobi/{token}/light`
-6. **Envio de Dados**: Enviar dados das contas selecionadas, instalação e protocolo quando receber o evento `PAGE_LOADED`, conforme exemplo.
-7. **Pagamento**: Gerenciar estados de pagamento conforme descrito anteriormente
-8. **Finalização**: Processar resultado do pagamento, exibido a tela de sucesso de pagamento e imprimindo o comprovante da fatura. **TODO COMPROVANTE DEVE CONTER O COMPROVANTE DO SITEF AO FINAL. PODE SER OBTIDO NO OBJETO transaction NO EVENTO PAYMENT_OK**
+1. **Listagem de faturas**: Redirecionar para `BASE_URL/bemobi/{token}/light` - Adicione o queryParam opcional newCart=1 caso queira limpar o carrinho. Caso este parametro não seja adicionado, o carrinho salvo para o contrato será carregado caso hajam dados. Se um contrato diferente for informado, o carrinho será limpo, independentemente do valor de newCart.
+2. **Envio de Dados**: Enviar dados das contas selecionadas, instalação e protocolo quando receber o evento `PAGE_LOADED`, conforme exemplo.
+3. **Pagamento**: Gerenciar estados de pagamento conforme descrito anteriormente
+4. **Finalização**: Processar resultado do pagamento, exibido a tela de sucesso de pagamento e imprimindo o comprovante da fatura. **TODO COMPROVANTE DEVE CONTER O COMPROVANTE DO SITEF AO FINAL. PODE SER OBTIDO NO OBJETO transaction NO EVENTO PAYMENT_OK**
 
 ## Considerações Importantes
 
